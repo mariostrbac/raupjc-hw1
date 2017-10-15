@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB7332CC-41E5-49C3-A8AE-0F487427361F}</ProjectGuid>
+    <ProjectGuid>{F3BAE29A-30EE-4258-8D7F-10D77F404195}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>zad01</RootNamespace>
-    <AssemblyName>zad01</AssemblyName>
+    <RootNamespace>Interface</RootNamespace>
+    <AssemblyName>Interface</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IIntegerList.cs" />
-    <Compile Include="IntegerList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

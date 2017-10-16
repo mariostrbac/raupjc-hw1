@@ -29,8 +29,15 @@ namespace zad04
         public Vector2 Direction { get; set; }
 
         public Ball(int size, float speed, float defaultBallBumpSpeedIncreaseFactor) : base(size, size)
-        { 
-            Speed = speed;
+        {
+            if (speed > GameConstants.MaxBallSpeed)
+            {
+                Speed = GameConstants.MaxBallSpeed;
+            }
+            else
+            {
+                Speed = speed;
+            }
             BumpSpeedIncreaseFactor = defaultBallBumpSpeedIncreaseFactor;
             //  Initial  direction
             Direction = new  Vector2(1, 1);

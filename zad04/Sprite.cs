@@ -29,13 +29,12 @@ namespace zad04
             Width = width;
         }
         
-        /// <summary >
-        /// Base  draw  method
-        ///  </summary >
+        /// <summary>
+        /// Base draw method
+        /// </summary>
         public virtual void DrawSpriteOnScreen(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Vector2(X, Y), new Rectangle(0, 0,
-                Width, Height), Color.White);
+            spriteBatch.Draw(Texture, new Vector2(X, Y), new Rectangle(0, 0, Width, Height), Color.White);
         }
     }
 }

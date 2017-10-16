@@ -18,8 +18,7 @@ namespace zad04
         ///  </summary >
         public float Speed { get; set; }
 
-        public Paddle(int width, int height, float initialSpeed) : base(width,
-            height)
+        public Paddle(int width, int height, float initialSpeed) : base(width, height)
         {
             Speed = initialSpeed;
         }
@@ -29,8 +28,7 @@ namespace zad04
         ///  </summary >
         public override void DrawSpriteOnScreen(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Vector2(X, Y), new Rectangle(0, 0,
-                Width, Height), Color.GhostWhite);
+            spriteBatch.Draw(Texture, new Vector2(X, Y), new Rectangle(0, 0, Width, Height), Color.GhostWhite);
         }
     }
 }

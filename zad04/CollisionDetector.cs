@@ -10,7 +10,7 @@ namespace zad04
     {
         public static bool Overlaps(IPhysicalObject2D a, IPhysicalObject2D b)
         {
-            //  return  true if overlaps , false  otherwise ...
+            return false;
         }
     }
 }

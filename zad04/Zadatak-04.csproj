@@ -46,6 +46,8 @@
     <Compile Include="CollisionDetector.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameConstants.cs" />
+    <Compile Include="GenericList.cs" />
+    <Compile Include="GenericListEnumerator.cs" />
     <Compile Include="IPhysicalObject2D.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="Program.cs" />

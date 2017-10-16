@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,17 +40,16 @@ namespace zad04
         {
             //  Screen  bounds  details. Use  this  information  to set up game  objects positions.
             var screenBounds = GraphicsDevice.Viewport.Bounds;
-            PaddleBottom = new Paddle(GameConstants.PaddleDefaultWidth,
-                GameConstants.PaddleDefaulHeight, GameConstants.PaddleDefaulSpeed);
 
+            PaddleBottom = new Paddle(GameConstants.PaddleDefaultWidth, GameConstants.PaddleDefaulHeight, GameConstants.PaddleDefaulSpeed);
             PaddleBottom.X = screenBounds.Width / 2f - PaddleBottom.Width / 2f;
             PaddleBottom.Y = screenBounds.Bottom - PaddleBottom.Height;
 
-            PaddleTop = new Paddle(0, 0, 0);
+            PaddleTop = new Paddle(0, 0, 0); //treba popravit!!!
             PaddleTop.X = 0;
             PaddleTop.Y = 0;
 
-            Ball = new Ball(0, 0, 0)
+            Ball = new Ball(0, 0, 0) //treba popravit!!!
             {
                 X = 0,
                 Y = 0
@@ -64,10 +65,10 @@ namespace zad04
 
             Walls = new List<Wall>()
             {
-                // try  with  100  for  default  wall  size!
                 new  Wall(-GameConstants.WallDefaultSize ,0, GameConstants.WallDefaultSize , screenBounds.Height),
                 new  Wall(screenBounds.Right ,0,  GameConstants.WallDefaultSize , screenBounds.Height),
             };
+
             Goals = new List<Wall>()
             {
                 new  Wall(0,  screenBounds.Height , screenBounds.Width ,GameConstants.WallDefaultSize),
@@ -96,7 +97,6 @@ namespace zad04
             // Load  sounds
             // Start  background  music
             HitSound = Content.Load<SoundEffect>("hit");
-            
             Music = Content.Load<Song>("music");
 
             MediaPlayer.IsRepeating = true;
@@ -123,23 +123,69 @@ namespace zad04
                 //Exit();
 
             var touchState = Keyboard.GetState();
-            (touchState.IsKeyDown(Keys.Left))
+
+            if (touchState.IsKeyDown(Keys.Left))
             {
-                PaddleBottom.X = PaddleBottom.X - (float)(PaddleBottom.Speed *
-                                        gameTime.ElapsedGameTime.TotalMilliseconds);
+                PaddleBottom.X = PaddleBottom.X - (float)(PaddleBottom.Speed * gameTime.ElapsedGameTime.TotalMilliseconds);
             }
+
             if (touchState.IsKeyDown(Keys.Right))
             {
-                PaddleBottom.X = PaddleBottom.X + (float)(PaddleBottom.Speed *
-                                        gameTime.ElapsedGameTime.TotalMilliseconds);
+                PaddleBottom.X = PaddleBottom.X + (float)(PaddleBottom.Speed * gameTime.ElapsedGameTime.TotalMilliseconds);
             }
 
-            //PaddleBottom.X = MathHelper.Clamp(PaddleBottom.X, bounds.Left, bounds.Right - PaddleBottom.Width);
+            if (touchState.IsKeyDown(Keys.A))
+            {
+                PaddleTop.X = PaddleTop.X - (float)(PaddleTop.Speed * gameTime.ElapsedGameTime.TotalMilliseconds);
+            }
 
-            var ballPositionChange = Ball.Direction *
-                                     (float)(gameTime.ElapsedGameTime.TotalMilliseconds * Ball.Speed);
+            if (touchState.IsKeyDown(Keys.D))
+            {
+                PaddleTop.X = PaddleTop.X + (float)(PaddleTop.Speed * gameTime.ElapsedGameTime.TotalMilliseconds);
+            }
+
+            /*PaddleBottom.X = MathHelper.Clamp(PaddleBottom.X, bounds.Left, bounds.Right - PaddleBottom.Width);
+            PaddleTop.X = MathHelper.Clamp(PaddleTop.X, bounds.Left, bounds.Right - PaddleTop.Width);
+            */
+
+            var ballPositionChange = Ball.Direction * (float)(gameTime.ElapsedGameTime.TotalMilliseconds * Ball.Speed);
             Ball.X += ballPositionChange.X;
             Ball.Y += ballPositionChange.Y;
+            
+            // Ball - side  walls
+            // If ball  has  collision  with  any of the  side  wall
+            // Reverse X direction  of the  ball
+            // Increase  the  ball  speed by bump  speed  increase  factor
+            if (Ball.X == 0 || Ball.X == 500)
+            {
+                Ball.X = -Ball.X;
+                Ball.Speed = Ball.Speed * Ball.BumpSpeedIncreaseFactor;
+            }
+            
+            // If ball  has  collision  with  winning  walls (goals)
+            // Move  ball to the  center
+            // Reset  ball  speed
+            // Play  hit  sound  with: HitSound.Play();
+            if (Ball.Y == 0 || Ball.Y == 900)
+            {
+                Ball.Y = 450;
+                Ball.X = 250;
+                Ball.Speed = GameConstants.DefaultInitialBallSpeed;
+                HitSound.Play(0.5f,0,0);
+            }
+
+            // If ball  has  collision  with  paddles (with  appropriate  movement  direction !!)
+            // Reverse Y direction  of the  ball
+            // Increase  the  ball  speed by bump  speed  increase  factor
+            if ((Ball.X == PaddleTop.X && Ball.Y == PaddleTop.Y && 
+                    (Ball.Direction.Equals(new Vector2(-1,-1)) || Ball.Direction.Equals(new Vector2(1,-1)))) 
+                ||
+                (Ball.X == PaddleBottom.X && Ball.Y == PaddleBottom.Y && 
+                    (Ball.Direction.Equals(new Vector2(-1, 1)) || Ball.Direction.Equals(new Vector2(1, 1)))))
+            {
+                Ball.Y = - Ball.Y;
+                Ball.Speed = Ball.Speed * Ball.BumpSpeedIncreaseFactor;
+            }
 
             base.Update(gameTime);
         }
@@ -158,6 +204,7 @@ namespace zad04
             {
                 SpritesForDrawList.GetElement(i).DrawSpriteOnScreen(spriteBatch);
             }
+
             // End  drawing.
             // Send  all  gathered  details  to the  graphic  card in one  batch.
             spriteBatch.End();
@@ -198,7 +245,8 @@ namespace zad04
         /// <summary >
         /// Generic  list  that  holds  Sprites  that  should  be  drawn on  screen
         /// </summary >
-        private IGenericList<Sprite> SpritesForDrawList = new GenericList<Sprite>();
+        private GenericList<Sprite> SpritesForDrawList = new GenericList<Sprite>();  //IGenericList
+        
 
         
 

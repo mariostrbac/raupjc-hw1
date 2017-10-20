@@ -43,7 +43,7 @@ namespace zad01
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        int indexOf(int item);
+        int IndexOf(int item);
 
         /// <summary>
         /// Readonly property. Gets the number of item contained in the collection.

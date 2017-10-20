@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace zad02
+namespace zad03
 {
-    public class GenericList <X> : IGenericList<X>
+    public class GenericList<X> : IGenericList<X>
     {
         private X[] _internalStorage;
         private int index;
@@ -23,10 +23,22 @@ namespace zad02
         {
             if (initialSize < 0)
                 initialSize = (-1) * initialSize;
-            
+
             _internalStorage = new X[initialSize];
             index = 0;
         }
+
+
+        public IEnumerator<X> GetEnumerator()
+        {
+            return new GenericListEnumerator<X>(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
 
         public void Add(X item)
         {
@@ -40,8 +52,8 @@ namespace zad02
                     {
                         _internalStorageTemp[i] = _internalStorage[i];
                     }
-                    _internalStorageTemp[index++] = item;
 
+                    _internalStorageTemp[index++] = item;
                     _internalStorage = _internalStorageTemp;
                 }
                 else
@@ -116,8 +128,8 @@ namespace zad02
             {
                 for (int i = 0; i < index; i++)
                 {
-                        if (_internalStorage[i].Equals(item))
-                            return i;
+                    if (_internalStorage[i].Equals(item))
+                        return i;
                 }
             }
             return -1;
@@ -140,8 +152,11 @@ namespace zad02
         {
             if (item != null)
             {
-                if(IndexOf(item) != -1)
+                for (int i = 0; i < index; i++)               // if(IndexOf(item) != -1) return true; else return false;
+                {
+                    if (_internalStorage[i].Equals(item))
                         return true;
+                }
             }
             return false;
         }

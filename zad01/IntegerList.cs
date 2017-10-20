@@ -29,7 +29,6 @@ namespace zad01
             index = 0;
         }
 
-
         public void Add(int value)
         {
             if (index == _internalStorage.Length)
@@ -40,8 +39,8 @@ namespace zad01
                 {
                     _internalStorageTemp[i] = _internalStorage[i];
                 }
-
                 _internalStorageTemp[index++] = value;
+
                 _internalStorage = _internalStorageTemp;
             }
             else
@@ -72,16 +71,9 @@ namespace zad01
 
         public bool RemoveAt(int index)
         {
-            try
+            if (index >= _internalStorage.Length || index < 0)
             {
-                if (index >= _internalStorage.Length || index < 0)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                return false;
+                throw new IndexOutOfRangeException();
             }
 
             if (index < this.index)
@@ -89,9 +81,7 @@ namespace zad01
                 SiftToLeft(index);
                 return true;
             }
-
             return false;
-            
         }
 
         public bool Remove(int item)
@@ -108,24 +98,16 @@ namespace zad01
 
         public int GetElement(int index)
         {
-            try
+            if (index >= _internalStorage.Length || index < 0)
             {
-                if (index >= _internalStorage.Length || index < 0)
-                {
                     throw new IndexOutOfRangeException();
-                }
             }
-            catch (IndexOutOfRangeException ex)
-            {
-                return -1;
-            }
-
             return _internalStorage[index];
         }
 
-        public int indexOf(int item)
+        public int IndexOf(int item)
         {
-            for (int i = 0; i < _internalStorage.Length; i++)
+            for (int i = 0; i < index; i++)
             {
                 if (_internalStorage[i] == item)
                     return i;
@@ -143,7 +125,7 @@ namespace zad01
 
         public bool Contains(int item)
         {
-            for (int i = 0; i < _internalStorage.Length; i++)
+            for (int i = 0; i < index; i++)
             {
                 if (_internalStorage[i] == item)
                     return true;

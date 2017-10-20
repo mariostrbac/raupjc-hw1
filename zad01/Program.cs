@@ -27,8 +27,8 @@ namespace zad01
             listOfIntegers.RemoveAt(0); // [2,3,4,5]
             listOfIntegers.Remove(5); //[2,3,4]
             Console.WriteLine(listOfIntegers.Count); // 3
-            Console.WriteLine(listOfIntegers.Remove (100)); //  false
-            Console.WriteLine(listOfIntegers.RemoveAt (5)); //  false
+            Console.WriteLine(listOfIntegers.Remove (100)); // false
+            Console.WriteLine(listOfIntegers.RemoveAt (5)); // false
             listOfIntegers.Clear(); // []
             Console.WriteLine(listOfIntegers.Count); // 0
         }
